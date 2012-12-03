@@ -11,13 +11,13 @@ the sample application.
 
 - Ruby 1.9.3+
 - The following gems (run 'sudo gem install <gem name>' to install)
-- google-api-client
-- thin
-- launchy
-- highline
+  * google-api-client
+  * thin
+  * launchy
+  * highline
 
 - If you haven't installed the above gems, try this:
-- 'sudo gem install google-api-client thin launchy highline'
+  * 'sudo gem install google-api-client thin launchy highline'
 - The google-api-ruby-client library checked out locally, and this sample
 application running from inside of that repo.
 
@@ -41,7 +41,7 @@ project name.
 
 ## Running the Sample Application
 1. Run the application
-- $ ruby sample.rb
+  * $ ruby sample.rb
 2. Authorize the application in the browser window that opens.
 3. The Google Compute Engine sample application will display its output on the
 command line.
