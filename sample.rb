@@ -6,15 +6,16 @@ require './oauth_util'
 project = 'YOUR_PROJECT_ID'
 
 # Constants for use as request parameters.
-BASE_URL = 'https://www.googleapis.com/compute/v1beta12/projects/'
-API_VERSION = 'v1beta13'
+BASE_URL = 'https://www.googleapis.com/compute/v1beta14/projects/'
+API_VERSION = 'v1beta14'
 DEFAULT_PROJECT = project
 GOOGLE_PROJECT = 'google'
 DEFAULT_INSTANCE_NAME = 'new-node-ruby'
-DEFAULT_IMAGE = BASE_URL + GOOGLE_PROJECT + '/images/ubuntu-12-04-v20120912'
-DEFAULT_ZONE = BASE_URL + DEFAULT_PROJECT + '/zones/us-east1-a'
-DEFAULT_MACHINE = BASE_URL + DEFAULT_PROJECT + '/machine-types/n1-standard-1'
-DEFAULT_NETWORK = BASE_URL + DEFAULT_PROJECT + '/networks/default'
+DEFAULT_IMAGE = BASE_URL + GOOGLE_PROJECT + '/global/images/gcel-12-04-v20130104'
+DEFAULT_ZONE_NAME = 'us-east1-a'
+DEFAULT_ZONE = BASE_URL + DEFAULT_PROJECT + '/global/zones/' + DEFAULT_ZONE_NAME
+DEFAULT_MACHINE = BASE_URL + DEFAULT_PROJECT + '/global/machineTypes/n1-standard-1'
+DEFAULT_NETWORK = BASE_URL + DEFAULT_PROJECT + '/global/networks/default'
 
 # Creating a new API client and loading the Google Compute Engine API.
 client = Google::APIClient.new
@@ -28,7 +29,7 @@ client.authorization = auth_util.authorize()
 # Linking each input selection to an API request.
 api_request_selection_map = {
   '1' => compute.instances.list,
-  '2' => compute.operations.list,
+  '2' => compute.global_operations.list,
   '3' => compute.zones.list,
   '4' => compute.machine_types.list,
   '5' => compute.images.list,
@@ -40,9 +41,10 @@ api_request_selection_map = {
 # Linking each API request to appropriate request parameters.
 api_request_parameter_map = {
   compute.instances.list => {
-    'project' => DEFAULT_PROJECT
+    'project' => DEFAULT_PROJECT,
+    'zone' => DEFAULT_ZONE_NAME
   },
-  compute.operations.list => {
+  compute.global_operations.list => {
     'project' => DEFAULT_PROJECT
   },
   compute.zones.list => {
@@ -59,10 +61,12 @@ api_request_parameter_map = {
   },
   compute.instances.get => {
     'instance' => DEFAULT_INSTANCE_NAME,
-    'project' => DEFAULT_PROJECT
+    'project' => DEFAULT_PROJECT,
+    'zone' => DEFAULT_ZONE_NAME
   },
   compute.instances.insert => {
     'project' => DEFAULT_PROJECT,
+    'zone' => DEFAULT_ZONE_NAME
   }
 }
 
@@ -80,7 +84,7 @@ api_request_body_map = {
 # REPL style interface for making API requests.
 while true
   print "[1] List Instances \n"
-  print "[2] List Operations \n"
+  print "[2] List Global Operations \n"
   print "[3] List Zones \n"
   print "[4] List Machine Types \n"
   print "[5] List Images \n"
